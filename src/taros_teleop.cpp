@@ -9,11 +9,8 @@ When the operator presses manualOverrideButton, the cmd and flipperVelocity mess
 #include <sensor_msgs/Joy.h>
 #include <std_msgs/Float32.h>
 #include <std_msgs/Bool.h>
-#include <phoenix_msgs/Status.h>
-#include <phoenix_msgs/Health.h>
 
 //for person follow service
-#include <lipraco_teleop/followPerson.h>
 
 /*joystick input parameters - which button causes the user to take control and axes that correspond to forward, turning and flipper speeds*/ 
 int manualOverrideButton = 0;
@@ -178,24 +175,6 @@ void joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 	}*/
 }
 
-void statusCallBack(const phoenix_msgs::StatusConstPtr &msg) 
-{
-	wheelSteer = msg->currentTurnAngleDeg*M_PI/180;
-}
-
-void healthCallBack(const phoenix_msgs::HealthConstPtr &msg) 
-{
-	if (msg->overall == 1)
-	{
-		lastHealthReport = ros::Time::now();
-	}else if (msg->overall == 2){
-		lastHealthReport = ros::Time::now();
-		ROS_ERROR("Diagnostics reports a warning");
-	}else{
-		ROS_ERROR("System health not OK! Check diagnostics.");
-	}
-}
-
 
 
 int main(int argc, char** argv)
@@ -217,12 +196,6 @@ int main(int argc, char** argv)
 	vel_pub_ = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
 	joy_sub_ = nh.subscribe<sensor_msgs::Joy>("remote", 10, joyCallback);
 	cmd_sub_ = nh.subscribe<geometry_msgs::Twist>("cmd", 10, cmdCallback);
-	status_sub_ = nh.subscribe("/status", 1, &statusCallBack);
-	health_sub_ = nh.subscribe("/health", 1, &healthCallBack);
-
-	followerClient = nh.serviceClient<lipraco_teleop::followPerson>("/followPerson"); 
-	gripper_pub = nh.advertise<std_msgs::Bool>("loadCar",1);
-	reset_pub = nh.advertise<std_msgs::Bool>("resetWheels",1);
 
 	ros::Rate loopRate(controlRate);
 	while (ros::ok()){

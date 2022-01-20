@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(lipraco_teleop)
+project(taros_teleop)
 
 ## Add support for C++11, supported in ROS Kinetic and newer
 # add_definitions(-std=c++11)
@@ -30,13 +30,11 @@ if(HAVE_LINUX_JOYSTICK_H)
   include_directories(${catkin_INCLUDE_DIRS})
 
   
-  add_executable(lipraco_teleop src/lipraco_teleop.cpp)
-  add_executable(joy_node src/joy_node.cpp)
-  target_link_libraries(joy_node ${catkin_LIBRARIES})
-  target_link_libraries(lipraco_teleop ${catkin_LIBRARIES})
+  add_executable(taros_teleop src/taros_teleop.cpp)
+  target_link_libraries(taros_teleop ${catkin_LIBRARIES})
 
-  add_dependencies(lipraco_teleop ${PROJECT_NAME}_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
-  add_dependencies(lipraco_teleop lipraco_teleop_gencpp)
+  add_dependencies(taros_teleop ${PROJECT_NAME}_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+  add_dependencies(taros_teleop taros_teleop_gencpp)
 
 else(HAVE_LINUX_JOYSTICK_H)
   message("Warning: no <linux/joystick.h>; won't build joy node")
@@ -46,12 +44,6 @@ endif(HAVE_LINUX_JOYSTICK_H)
 #catkin_add_nosetests(test/test_joy_msg_migration.py)
 
 # Install targets
-if(HAVE_LINUX_JOYSTICK_H)
-install(TARGETS joy_node
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-endif(HAVE_LINUX_JOYSTICK_H)
 
 install(DIRECTORY migration_rules
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
@@ -150,7 +142,7 @@ install(DIRECTORY migration_rules
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/lipraco_teleop.cpp
+#   src/${PROJECT_NAME}/taros_teleop.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -161,7 +153,7 @@ install(DIRECTORY migration_rules
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/lipraco_teleop_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/taros_teleop_node.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -214,7 +206,7 @@ install(DIRECTORY migration_rules
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_lipraco_teleop.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_taros_teleop.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

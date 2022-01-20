@@ -8,7 +8,7 @@ project(taros_teleop)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 
-set(CATKIN_DEPS roscpp diagnostic_updater sensor_msgs joy geometry_msgs std_msgs phoenix_msgs)
+set(CATKIN_DEPS roscpp diagnostic_updater sensor_msgs joy geometry_msgs std_msgs )
 find_package(catkin REQUIRED ${CATKIN_DEPS} message_generation)
 
 add_service_files(DIRECTORY srv/ FILES

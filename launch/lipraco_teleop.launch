@@ -1,0 +1,18 @@
+<launch>
+    <!-- Cameleon Joystick Handler Node-->
+     <node pkg="lipraco_teleop" type="lipraco_teleop" name="lipraco_teleop" output="screen"/>
+     <remap from="/lipraco/cmd_vel" to="/cmd_vel" />
+    <!-- Joystick node -->
+     <!--node pkg="joy" type="joy_node" name="joy_node" >
+      <param name="dev" type="string" value="/dev/input/js0" />
+      <param name="deadzone" value="0.2" />
+ </node-->
+ 
+   <!-- Axes -->
+   <param name="axis_linear" value="1" type="int"/>
+   <param name="axis_angular" value="0" type="int"/>
+   <param name="steering_gain" value="1.0" type="double"/>
+   <param name="linear_gain" value="1.0" type="double"/>
+   <param name="control_rate" value="10" type="double"/>
+ </launch>
+
